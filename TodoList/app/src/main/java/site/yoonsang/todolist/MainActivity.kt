@@ -1,5 +1,7 @@
 package site.yoonsang.todolist
 
+import android.graphics.Paint
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,19 +26,29 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         data.add(Todo("숙제"))
-        data.add(Todo("청소"))
+        data.add(Todo("청소", true))
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = TodoAdapter(
-            data,
-            onClickDeleteIcon = {
-                deleteTodo(it)
-            }
-        )
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = TodoAdapter(
+                data,
+                onClickDeleteIcon = {
+                    deleteTodo(it)
+                },
+                onClickItem = {
+                    toggleTodo(it)
+                }
+            )
+        }
 
         binding.addButton.setOnClickListener {
             addTodo()
         }
+    }
+
+    private fun toggleTodo(todo: Todo) {
+        todo.isDone = !todo.isDone
+        binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
     private fun addTodo() {
@@ -59,7 +71,8 @@ data class Todo(
 
 class TodoAdapter(
     private val myDataset: List<Todo>,
-    val onClickDeleteIcon: (todo: Todo) -> Unit
+    val onClickDeleteIcon: (todo: Todo) -> Unit,
+    val onClickItem: (todo: Todo) -> Unit
 ) :
     RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
@@ -75,8 +88,25 @@ class TodoAdapter(
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         val todo = myDataset[position]
         holder.binding.todoText.text = todo.text
+
+        if (todo.isDone) {
+            holder.binding.todoText.apply {
+                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                setTypeface(null, Typeface.ITALIC)
+            }
+        } else {
+            holder.binding.todoText.apply {
+                paintFlags = 0
+                setTypeface(null, Typeface.NORMAL)
+            }
+        }
+
         holder.binding.deleteImageView.setOnClickListener {
             onClickDeleteIcon.invoke(todo)
+        }
+
+        holder.binding.root.setOnClickListener {
+            onClickItem.invoke(todo)
         }
     }
 
