@@ -1,7 +1,5 @@
 package site.yoonsang.todolist
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Paint
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
@@ -13,9 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
@@ -24,10 +19,6 @@ import site.yoonsang.todolist.databinding.ActivityMainBinding
 import site.yoonsang.todolist.databinding.ItemTodoBinding
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var auth: FirebaseAuth
-
-    val RC_SIGN_IN = 1000
 
     private lateinit var binding: ActivityMainBinding
 
@@ -38,13 +29,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        auth = Firebase.auth
-        // 로그인 안돼있으면
-        if (auth.currentUser == null) {
-            login()
-        }
-
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -73,45 +57,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == RC_SIGN_IN) {
-            val response = IdpResponse.fromResultIntent(data)
-
-            if (resultCode == Activity.RESULT_OK) {
-                viewModel.fetchData()
-            } else {
-                // 로그인 실패
-                finish()
-            }
-        }
-    }
-
-    fun login() {
-
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
-
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .build(),
-            RC_SIGN_IN
-        )
-    }
-
-    fun logout() {
-        AuthUI.getInstance()
-            .signOut(this)
-            .addOnCompleteListener {
-                login()
-            }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.main, menu)
@@ -122,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         // Handle item selection
         return when (item.itemId) {
             R.id.action_log_out -> {
-                logout()
+//                logout()
                 true
             }
             else -> super.onOptionsItemSelected(item)

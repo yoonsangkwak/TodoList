@@ -3,4 +3,8 @@
     <string name="add_button">추가</string>
     <string name="edit_text_hint">할 일을 입력하세요</string>
     <string name="content_description">삭제</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="signin_email">Signup or Signin by email</string>
+    <string name="signin_google">Google login</string>
 </resources>
