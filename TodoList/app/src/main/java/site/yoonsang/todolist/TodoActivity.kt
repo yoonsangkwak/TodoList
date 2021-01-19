@@ -54,23 +54,6 @@ class TodoActivity : AppCompatActivity() {
             (binding.recyclerView.adapter as TodoAdapter).setData(it)
         })
     }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
-        return when (item.itemId) {
-            R.id.action_log_out -> {
-//                logout()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 }
 
 
@@ -104,11 +87,13 @@ class TodoAdapter(
             holder.binding.todoText.apply {
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 setTypeface(null, Typeface.ITALIC)
+                holder.binding.checkboxImageView.setImageResource(R.drawable.ic_baseline_check_box_24)
             }
         } else {
             holder.binding.todoText.apply {
                 paintFlags = 0
                 setTypeface(null, Typeface.NORMAL)
+                holder.binding.checkboxImageView.setImageResource(R.drawable.ic_baseline_check_box_outline_blank_24)
             }
         }
 
