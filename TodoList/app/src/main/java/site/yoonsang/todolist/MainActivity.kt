@@ -18,7 +18,6 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import site.yoonsang.todolist.databinding.ActivityMainBinding
@@ -61,8 +60,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.addButton.setOnClickListener {
-            val todo = Todo(binding.editText.text.toString())
-            viewModel.addTodo(todo)
+            if (binding.editText.text.toString() != "") {
+                val todo = Todo(binding.editText.text.toString())
+                viewModel.addTodo(todo)
+                binding.editText.setText("")
+            }
         }
 
         // 관찰 UI 업데이트
@@ -87,7 +89,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun login() {
-        val providers = arrayListOf(AuthUI.IdpConfig.EmailBuilder().build())
+
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
 
         startActivityForResult(
             AuthUI.getInstance()
