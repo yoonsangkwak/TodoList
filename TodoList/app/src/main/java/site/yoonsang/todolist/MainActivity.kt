@@ -17,6 +17,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import site.yoonsang.todolist.databinding.ActivityMainBinding
 import site.yoonsang.todolist.databinding.ItemTodoBinding
@@ -76,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             val response = IdpResponse.fromResultIntent(data)
 
             if (resultCode == Activity.RESULT_OK) {
-                val user = auth.currentUser
+                viewModel.fetchData()
             } else {
                 // 로그인 실패
                 finish()
@@ -179,9 +180,36 @@ class TodoAdapter(
 
 class MainViewModel : ViewModel() {
 
+    val db = Firebase.firestore
     val todoLiveData = MutableLiveData<List<Todo>>()
 
     private val data = arrayListOf<Todo>()
+
+    init {
+        fetchData()
+    }
+
+    fun fetchData() {
+        val user = Firebase.auth.currentUser
+        if (user != null) {
+            db.collection(user.uid)
+                .addSnapshotListener { value, e ->
+                    if (e != null) {
+                        return@addSnapshotListener
+                    }
+
+                    data.clear()
+                    for (document in value!!) {
+                        val todo = Todo(
+                            document.getString("text") ?: "",
+                            document.getBoolean("isDone") ?: false
+                        )
+                        data.add(todo)
+                    }
+                    todoLiveData.value = data
+                }
+        }
+    }
 
     fun toggleTodo(todo: Todo) {
         todo.isDone = !todo.isDone
