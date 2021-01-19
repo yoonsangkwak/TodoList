@@ -1,28 +1,15 @@
 package site.yoonsang.todolist
 
-import android.graphics.Paint
-import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
-import androidx.activity.viewModels
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import androidx.viewpager.widget.PagerAdapter
+import com.google.android.material.tabs.TabLayout
 import site.yoonsang.todolist.databinding.ActivityMainBinding
-import site.yoonsang.todolist.databinding.ItemTodoBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,147 +17,63 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = TodoAdapter(
-                emptyList(),
-                onClickDeleteIcon = {
-                    viewModel.deleteTodo(it)
-                },
-                onClickItem = {
-                    viewModel.toggleTodo(it)
-                }
-            )
-        }
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("ONE"))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("TWO"))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("THREE"))
 
-        binding.addButton.setOnClickListener {
-            if (binding.editText.text.toString() != "") {
-                val todo = Todo(binding.editText.text.toString())
-                viewModel.addTodo(todo)
-                binding.editText.setText("")
+        val adapter = ThreePageAdapter(LayoutInflater.from(this@MainActivity))
+        binding.viewPager.adapter = adapter
+        binding.viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout))
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                binding.viewPager.setCurrentItem(tab!!.position)
             }
-        }
 
-        // 관찰 UI 업데이트
-        viewModel.todoLiveData.observe(this, Observer {
-            (binding.recyclerView.adapter as TodoAdapter).setData(it)
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
         })
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
-        return when (item.itemId) {
-            R.id.action_log_out -> {
-//                logout()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 }
 
-data class Todo(
-    val text: String,
-    var isDone: Boolean = false
-)
+class ThreePageAdapter(
+    val layoutInflater: LayoutInflater
+): PagerAdapter() {
 
-
-class TodoAdapter(
-    private var myDataset: List<DocumentSnapshot>,
-    val onClickDeleteIcon: (todo: DocumentSnapshot) -> Unit,
-    val onClickItem: (todo: DocumentSnapshot) -> Unit
-) :
-    RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
-
-    class TodoViewHolder(val binding: ItemTodoBinding) : RecyclerView.ViewHolder(binding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_todo, parent, false)
-
-        return TodoViewHolder(ItemTodoBinding.bind(view))
-    }
-
-    override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
-        val todo = myDataset[position]
-        holder.binding.todoText.text = todo.getString("text") ?: ""
-
-        if ((todo.getBoolean("isDone") ?: false) == true) {
-            holder.binding.todoText.apply {
-                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                setTypeface(null, Typeface.ITALIC)
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        when (position) {
+            0 -> {
+                val view = layoutInflater.inflate(R.layout.activity_calendar, container, false)
+                container.addView(view)
+                return view
             }
-        } else {
-            holder.binding.todoText.apply {
-                paintFlags = 0
-                setTypeface(null, Typeface.NORMAL)
+            1 -> {
+                val view = layoutInflater.inflate(R.layout.activity_todo, container, false)
+                container.addView(view)
+                return view
+            }
+            else -> {
+                val view = layoutInflater.inflate(R.layout.activity_profile, container, false)
+                container.addView(view)
+                return view
             }
         }
-
-        holder.binding.deleteImageView.setOnClickListener {
-            onClickDeleteIcon.invoke(todo)
-        }
-
-        holder.binding.root.setOnClickListener {
-            onClickItem.invoke(todo)
-        }
     }
 
-    override fun getItemCount() = myDataset.size
-
-    fun setData(newData: List<DocumentSnapshot>) {
-        myDataset = newData
-        notifyDataSetChanged()
-    }
-}
-
-class MainViewModel : ViewModel() {
-
-    val db = Firebase.firestore
-    val todoLiveData = MutableLiveData<List<DocumentSnapshot>>()
-
-    init {
-        fetchData()
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        container.removeView(`object` as View)
     }
 
-    fun fetchData() {
-        val user = Firebase.auth.currentUser
-        if (user != null) {
-            db.collection(user.uid)
-                .addSnapshotListener { value, e ->
-                    if (e != null) {
-                        return@addSnapshotListener
-                    }
-
-                    if (value != null) {
-                        todoLiveData.value = value.documents
-                    }
-                }
-        }
+    override fun getCount(): Int {
+        return 3
     }
 
-    fun toggleTodo(todo: DocumentSnapshot) {
-        Firebase.auth.currentUser?.let { user ->
-            val isDone = todo.getBoolean("isDone") ?: false
-            db.collection(user.uid).document(todo.id).update("isDone", !isDone)
-        }
-    }
-
-    fun addTodo(todo: Todo) {
-        Firebase.auth.currentUser?.let { user ->
-            db.collection(user.uid).add(todo)
-        }
-    }
-
-    fun deleteTodo(todo: DocumentSnapshot) {
-        Firebase.auth.currentUser?.let { user ->
-            db.collection(user.uid).document(todo.id).delete()
-        }
+    // `` object가 코틀린에서는 키워드이기 때문에
+    override fun isViewFromObject(view: View, `object`: Any): Boolean {
+        return view === `object` as View
     }
 }

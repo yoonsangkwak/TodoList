@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    tools:context=".ProfileActivity">
+
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/profile_image"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="이름" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/profile_image_setting_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp"
+        android:layout_above="@id/profile_font_setting_btn"
+        android:background="#3E3E3E"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="사진 설정" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/profile_font_setting_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_above="@+id/logout_btn"
+        android:background="#3E3E3E"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="폰트 설정" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/logout_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_alignParentBottom="true"
+        android:background="#3E3E3E"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="로그아웃" />
+
+</RelativeLayout>
