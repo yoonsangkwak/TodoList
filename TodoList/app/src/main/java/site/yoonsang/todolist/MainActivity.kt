@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -47,6 +48,8 @@ class MainActivity : AppCompatActivity() {
                 val todo = Todo(binding.editText.text.toString())
                 viewModel.addTodo(todo)
                 binding.editText.setText("")
+            } else {
+                Toast.makeText(this, "할 일을 입력해주세요", Toast.LENGTH_SHORT).show()
             }
         }
 

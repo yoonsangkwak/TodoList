@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.*
 import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
-import site.yoonsang.todolist.databinding.ActivityMainBinding
 import site.yoonsang.todolist.databinding.ActivityTabBinding
 
 class TabActivity : AppCompatActivity() {
