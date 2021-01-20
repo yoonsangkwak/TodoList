@@ -27,7 +27,7 @@
         android:layout_margin="10dp"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:fontFamily="@font/tmoneyroundwindextrabold"
+        android:fontFamily="@font/font"
         tools:text="숙제" />
 
     <ImageView

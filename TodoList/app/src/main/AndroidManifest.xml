@@ -12,8 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TodoList"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CalendarActivity"></activity>
-        <activity android:name=".TodoActivity" />
+        <activity android:name=".TabActivity"></activity>
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".TodoActivity"></activity>
         <activity android:name=".ProfileActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -22,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>
