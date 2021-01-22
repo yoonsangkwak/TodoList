@@ -13,8 +13,7 @@ class TodoAdapter(
     private var myDataset: List<DocumentSnapshot>,
     val onClickDeleteIcon: (todo: DocumentSnapshot) -> Unit,
     val onClickItem: (todo: DocumentSnapshot) -> Unit
-) :
-    RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
+) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
     class TodoViewHolder(val binding: ItemTodoBinding) : RecyclerView.ViewHolder(binding.root)
 

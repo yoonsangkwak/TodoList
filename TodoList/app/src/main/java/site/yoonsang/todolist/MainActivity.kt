@@ -11,8 +11,8 @@ import site.yoonsang.todolist.fragmentClasses.TodoFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val adapter = MainFragmentPagerAdapter(supportFragmentManager)
     private lateinit var mViewPager: ViewPager
+    private val adapter = MainFragmentPagerAdapter(supportFragmentManager)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         mViewPager = binding.viewPager
+        mViewPager.adapter = adapter
+        mViewPager.setPageTransformer(true, ZoomOutPageTransformer())
         setupViewPager(mViewPager)
         binding.tabLayout.setupWithViewPager(mViewPager)
         binding.viewPager.currentItem = 1

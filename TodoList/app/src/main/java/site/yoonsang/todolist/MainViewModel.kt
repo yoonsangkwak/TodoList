@@ -16,7 +16,7 @@ class MainViewModel : ViewModel() {
         fetchData()
     }
 
-    private fun fetchData() {
+    fun fetchData() {
         val user = Firebase.auth.currentUser
         if (user != null) {
             db.collection(user.uid)
