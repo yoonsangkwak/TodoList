@@ -9,14 +9,14 @@ import com.google.firebase.ktx.Firebase
 
 class MainViewModel : ViewModel() {
 
-    val db = Firebase.firestore
+    private val db = Firebase.firestore
     val todoLiveData = MutableLiveData<List<DocumentSnapshot>>()
 
     init {
         fetchData()
     }
 
-    fun fetchData() {
+    private fun fetchData() {
         val user = Firebase.auth.currentUser
         if (user != null) {
             db.collection(user.uid)
