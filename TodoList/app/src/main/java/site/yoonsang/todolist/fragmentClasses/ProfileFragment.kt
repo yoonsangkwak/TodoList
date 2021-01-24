@@ -11,22 +11,21 @@ import site.yoonsang.todolist.R
 import site.yoonsang.todolist.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
-    private lateinit var binding: FragmentProfileBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = FragmentProfileBinding.inflate(layoutInflater)
-        binding.profileImageSettingBtn.setOnClickListener {
-            Log.d("checkkk", "hi")
-            Toast.makeText(context, "hi", Toast.LENGTH_SHORT).show()
-        }
-    }
+    private var mBinding: FragmentProfileBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+
+        val binding = FragmentProfileBinding.inflate(inflater, container, false)
+        mBinding = binding
+        return mBinding?.root
+    }
+
+    override fun onDestroyView() {
+        mBinding = null
+        super.onDestroyView()
     }
 }

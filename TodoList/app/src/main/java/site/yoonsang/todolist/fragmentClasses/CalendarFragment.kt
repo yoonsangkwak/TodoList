@@ -6,17 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import site.yoonsang.todolist.R
+import site.yoonsang.todolist.databinding.FragmentCalendarBinding
 
 class CalendarFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private var mBinding: FragmentCalendarBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_calendar, container, false)
+        val binding = FragmentCalendarBinding.inflate(inflater, container, false)
+        mBinding = binding
+        return mBinding?.root
+    }
+
+    override fun onDestroyView() {
+        mBinding = null
+        super.onDestroyView()
     }
 }

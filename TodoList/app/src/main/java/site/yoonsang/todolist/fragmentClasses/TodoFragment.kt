@@ -7,27 +7,26 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import site.yoonsang.todolist.MainViewModel
-import site.yoonsang.todolist.R
 import site.yoonsang.todolist.Todo
 import site.yoonsang.todolist.databinding.FragmentTodoBinding
 
 class TodoFragment : Fragment() {
-    private lateinit var binding: FragmentTodoBinding
-    private val viewModel: MainViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.fetchData()
-    }
+    private var mBinding: FragmentTodoBinding? = null
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTodoBinding.inflate(layoutInflater)
-        binding.recyclerView.layoutManager = LinearLayoutManager(activity)
-        binding.recyclerView.adapter = TodoAdapter(
+
+        val binding = FragmentTodoBinding.inflate(inflater, container, false)
+        mBinding = binding
+
+        mBinding?.recyclerView?.layoutManager = LinearLayoutManager(activity)
+        mBinding?.recyclerView?.hasFixedSize()
+        mBinding?.recyclerView?.adapter = TodoAdapter(
             emptyList(),
             onClickDeleteIcon = {
                 viewModel.deleteTodo(it)
@@ -37,11 +36,11 @@ class TodoFragment : Fragment() {
             }
         )
 
-        binding.addButton.setOnClickListener {
-            if (binding.editText.text.toString() != "") {
-                val todo = Todo(binding.editText.text.toString())
+        mBinding?.addButton?.setOnClickListener {
+            if (mBinding?.editText?.text.toString() != "") {
+                val todo = Todo(mBinding?.editText?.text.toString())
                 viewModel.addTodo(todo)
-                binding.editText.setText("")
+                mBinding?.editText?.setText("")
             } else {
                 Toast.makeText(context, "할 일을 입력해주세요", Toast.LENGTH_SHORT).show()
             }
@@ -49,9 +48,14 @@ class TodoFragment : Fragment() {
 
         // 관찰 UI 업데이트
         viewModel.todoLiveData.observe(viewLifecycleOwner, {
-            (binding.recyclerView.adapter as TodoAdapter).setData(it)
+            (mBinding?.recyclerView?.adapter as TodoAdapter).setData(it)
         })
 
-        return inflater.inflate(R.layout.fragment_todo, container, false)
+        return mBinding?.root
+    }
+
+    override fun onDestroyView() {
+        mBinding = null
+        super.onDestroyView()
     }
 }
