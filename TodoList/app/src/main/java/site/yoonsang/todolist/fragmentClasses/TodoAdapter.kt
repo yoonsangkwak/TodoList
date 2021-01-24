@@ -32,13 +32,13 @@ class TodoAdapter(
             holder.binding.todoText.apply {
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 setTypeface(null, Typeface.ITALIC)
-                holder.binding.checkboxImageView.setImageResource(R.drawable.ic_baseline_check_box_24)
+                holder.binding.checkboxImageView.setImageResource(R.drawable.ic_checkbox)
             }
         } else {
             holder.binding.todoText.apply {
                 paintFlags = 0
                 setTypeface(null, Typeface.NORMAL)
-                holder.binding.checkboxImageView.setImageResource(R.drawable.ic_baseline_check_box_outline_blank_24)
+                holder.binding.checkboxImageView.setImageResource(R.drawable.ic_checkbox_outline)
             }
         }
 
@@ -51,7 +51,7 @@ class TodoAdapter(
         }
     }
 
-    override fun getItemCount() = myDataset.size
+    override fun getItemCount(): Int = myDataset.size
 
     fun setData(newData: List<DocumentSnapshot>) {
         myDataset = newData

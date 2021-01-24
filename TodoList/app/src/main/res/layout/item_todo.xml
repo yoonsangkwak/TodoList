@@ -16,7 +16,7 @@
         android:layout_marginLeft="10dp"
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/content_description2"
-        android:src="@drawable/ic_baseline_check_box_outline_blank_24" />
+        android:src="@drawable/ic_checkbox_outline" />
 
     <TextView
         android:id="@+id/todo_text"
@@ -37,5 +37,5 @@
         android:layout_margin="10dp"
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/content_description"
-        android:src="@drawable/ic_baseline_delete_forever_24" />
+        android:src="@drawable/ic_delete" />
 </LinearLayout>
