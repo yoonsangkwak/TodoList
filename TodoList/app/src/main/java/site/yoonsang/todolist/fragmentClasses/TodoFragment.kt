@@ -1,12 +1,15 @@
 package site.yoonsang.todolist.fragmentClasses
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import site.yoonsang.todolist.MainViewModel
+import site.yoonsang.todolist.R
 import site.yoonsang.todolist.Todo
 import site.yoonsang.todolist.databinding.FragmentTodoBinding
 
@@ -25,7 +28,6 @@ class TodoFragment : Fragment() {
         mBinding = binding
 
         mBinding?.recyclerView?.layoutManager = LinearLayoutManager(activity)
-        mBinding?.recyclerView?.hasFixedSize()
         mBinding?.recyclerView?.adapter = TodoAdapter(
             emptyList(),
             onClickDeleteIcon = {
@@ -42,7 +44,7 @@ class TodoFragment : Fragment() {
                 viewModel.addTodo(todo)
                 mBinding?.editText?.setText("")
             } else {
-                Toast.makeText(context, "할 일을 입력해주세요", Toast.LENGTH_SHORT).show()
+                customToast("할 일을 입력해주세요")
             }
         }
 
@@ -57,5 +59,19 @@ class TodoFragment : Fragment() {
     override fun onDestroyView() {
         mBinding = null
         super.onDestroyView()
+    }
+
+    fun customToast(message: String) {
+        val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
+        val view = toast.view
+        val color = resources.getColor(R.color.design_default_color_primary)
+        view?.setBackgroundColor(color)
+
+        val group = toast.view as ViewGroup
+        val msgTextView = group.getChildAt(0) as TextView
+        msgTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14f)
+        msgTextView.setTextColor(resources.getColor(R.color.colorWhite))
+        msgTextView.typeface.isBold
+        toast.show()
     }
 }
