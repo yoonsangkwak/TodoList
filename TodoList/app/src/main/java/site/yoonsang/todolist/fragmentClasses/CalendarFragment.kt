@@ -39,7 +39,7 @@ class CalendarFragment : Fragment() {
                 month: Int,
                 dayOfMonth: Int
             ) {
-                customToast("hi")
+                customToast("$year ${month + 1} $dayOfMonth")
             }
         })
 

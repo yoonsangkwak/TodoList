@@ -1,6 +1,7 @@
 package site.yoonsang.todolist.fragmentClasses
 
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.widget.TextView
@@ -12,6 +13,8 @@ import site.yoonsang.todolist.MainViewModel
 import site.yoonsang.todolist.R
 import site.yoonsang.todolist.Todo
 import site.yoonsang.todolist.databinding.FragmentTodoBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TodoFragment : Fragment() {
 
@@ -42,6 +45,8 @@ class TodoFragment : Fragment() {
             if (mBinding?.editText?.text.toString() != "") {
                 val todo = Todo(mBinding?.editText?.text.toString())
                 viewModel.addTodo(todo)
+                val dateFormat = SimpleDateFormat("yyyy M dd", Locale.KOREA).format(todo.createdDate)
+                Log.d("checkkk", "" + dateFormat)
                 mBinding?.editText?.setText("")
             } else {
                 customToast("할 일을 입력해주세요")

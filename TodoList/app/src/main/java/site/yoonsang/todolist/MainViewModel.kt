@@ -16,10 +16,11 @@ class MainViewModel : ViewModel() {
         fetchData()
     }
 
-    fun fetchData() {
+    private fun fetchData() {
         val user = Firebase.auth.currentUser
         if (user != null) {
             db.collection(user.uid)
+                .orderBy("createdDate")
                 .addSnapshotListener { value, e ->
                     if (e != null) {
                         return@addSnapshotListener
