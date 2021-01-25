@@ -15,8 +15,8 @@
         android:scaleType="centerCrop"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
-        android:src="@drawable/ex_male"
-        android:contentDescription="프로필 사진" />
+        android:src="@drawable/ic_profile"
+        android:contentDescription="@string/profile_imageview_description" />
 
     <TextView
         android:id="@+id/profile_name"
@@ -26,7 +26,7 @@
         android:layout_below="@+id/profile_image"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:text="이름" />
+        android:text="@string/profile_text_name" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/profile_image_setting_btn"
@@ -34,15 +34,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="8dp"
-        android:layout_above="@id/profile_font_setting_btn"
+        android:layout_above="@id/profile_name_setting_btn"
         android:background="#3E3E3E"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:text="사진 설정" />
+        android:text="@string/profile_image_setting_button" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/profile_font_setting_btn"
+        android:id="@+id/profile_name_setting_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -51,7 +51,7 @@
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:text="폰트 설정" />
+        android:text="@string/profile_name_setting_button" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logout_btn"
@@ -63,6 +63,6 @@
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:text="로그아웃" />
+        android:text="@string/logout_button" />
 
 </RelativeLayout>
