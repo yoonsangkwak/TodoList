@@ -1,6 +1,8 @@
 package site.yoonsang.todolist.fragmentClasses
 
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
@@ -10,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import site.yoonsang.todolist.LoginActivity
 import site.yoonsang.todolist.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
@@ -30,6 +33,21 @@ class ProfileFragment : Fragment() {
         }
 
         mBinding?.profileName?.setText(Firebase.auth.currentUser?.email)
+
+        mBinding?.logoutBtn?.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
+                .setPositiveButton("로그아웃", DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    Firebase.auth.signOut()
+                    startActivity(intent)
+                })
+                .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
+
+                })
+                .show()
+        }
 
         return mBinding?.root
     }
