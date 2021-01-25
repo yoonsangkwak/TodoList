@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import site.yoonsang.todolist.MainViewModel
 import site.yoonsang.todolist.R
 import site.yoonsang.todolist.Todo
+import site.yoonsang.todolist.databinding.FragmentCalendarBinding
 import site.yoonsang.todolist.databinding.FragmentTodoBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,15 +39,14 @@ class TodoFragment : Fragment() {
             },
             onClickItem = {
                 viewModel.toggleTodo(it)
-            }
+            },
         )
 
         mBinding?.addButton?.setOnClickListener {
             if (mBinding?.editText?.text.toString() != "") {
                 val todo = Todo(mBinding?.editText?.text.toString())
                 viewModel.addTodo(todo)
-                val dateFormat = SimpleDateFormat("yyyy M dd", Locale.KOREA).format(todo.createdDate)
-                Log.d("checkkk", "" + dateFormat)
+                val dateFormat = SimpleDateFormat("yyyy-M-dd", Locale.KOREA).format(todo.createdDate)
                 mBinding?.editText?.setText("")
             } else {
                 customToast("할 일을 입력해주세요")

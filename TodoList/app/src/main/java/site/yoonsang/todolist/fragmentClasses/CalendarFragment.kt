@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.DocumentSnapshot
 import site.yoonsang.todolist.MainViewModel
 import site.yoonsang.todolist.R
 import site.yoonsang.todolist.databinding.FragmentCalendarBinding
@@ -39,7 +40,7 @@ class CalendarFragment : Fragment() {
                 month: Int,
                 dayOfMonth: Int
             ) {
-                customToast("$year ${month + 1} $dayOfMonth")
+                customToast("$year-${month + 1}-$dayOfMonth")
             }
         })
 
