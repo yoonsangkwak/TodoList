@@ -18,13 +18,18 @@ class MainViewModel : ViewModel() {
         fetchData()
     }
 
-    private fun fetchData() {
+    fun fetchData(newDate: String? = null) {
         val user = Firebase.auth.currentUser
         val cal = Calendar.getInstance()
         val year = cal.get(Calendar.YEAR).toString()
         val month = (cal.get(Calendar.MONTH) + 1).toString()
         val day = cal.get(Calendar.DATE).toString()
-        val date = "$year-$month-$day"
+        val date: String?
+        if (newDate == null) {
+            date = "$year-$month-$day"
+        } else {
+            date = newDate
+        }
         if (user != null) {
             db.collection(user.uid).document(user.uid).collection(date)
                 .orderBy("createdDate")
