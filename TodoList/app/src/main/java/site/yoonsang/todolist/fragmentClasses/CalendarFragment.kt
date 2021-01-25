@@ -1,19 +1,14 @@
 package site.yoonsang.todolist.fragmentClasses
 
 import android.os.Bundle
-import android.util.TypedValue
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CalendarView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.firestore.DocumentSnapshot
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import site.yoonsang.todolist.MainViewModel
-import site.yoonsang.todolist.R
 import site.yoonsang.todolist.databinding.FragmentCalendarBinding
 
 class CalendarFragment : Fragment() {
@@ -32,18 +27,21 @@ class CalendarFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             adapter = CalendarTodoAdapter(emptyList())
         }
+        mBinding?.calendarView?.setSelectedDate(CalendarDay.today())
 
-        mBinding?.calendarView?.setOnDateChangeListener(object : CalendarView.OnDateChangeListener {
-            override fun onSelectedDayChange(
-                view: CalendarView,
-                year: Int,
-                month: Int,
-                dayOfMonth: Int
-            ) {
-                val date = "$year-${month + 1}-$dayOfMonth"
-                viewModel.fetchData(date)
-            }
-        })
+        val sundayDecorator = SundayDecorator()
+        val saturdayDecorator = SaturdayDecorator()
+        val todayDecorator = TodayDecorator(requireContext())
+
+        mBinding?.calendarView?.addDecorators(sundayDecorator, saturdayDecorator, todayDecorator)
+
+        mBinding?.calendarView?.setOnDateChangedListener { widget, date, selected ->
+            val year = date.year
+            val month = date.month
+            val day = date.day
+            val newDate = "$year-${month + 1}-$day"
+            viewModel.fetchData(newDate)
+        }
 
         viewModel.todoLiveData.observe(viewLifecycleOwner, {
             (mBinding?.calendarRecyclerView?.adapter as CalendarTodoAdapter).setData(it)
