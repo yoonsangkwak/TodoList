@@ -12,6 +12,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import site.yoonsang.todolist.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -27,12 +29,17 @@ class LoginActivity : AppCompatActivity() {
         setContentView(view)
 
         auth = FirebaseAuth.getInstance()
+
+        binding.emailGotoSignupButton.setOnClickListener {
+            val intent = Intent(this, SignupActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.emailLoginButton.setOnClickListener {
-            signinAndSignup()
+            signinEmail()
         }
 
         binding.googleSigninInButton.setOnClickListener {
-            // First step
             googleLogin()
         }
 
@@ -54,7 +61,6 @@ class LoginActivity : AppCompatActivity() {
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             if (result!!.isSuccess) {
                 val account = result.signInAccount
-                // Second step
                 firebaseAuthWithGoogle(account)
             }
         }
@@ -74,23 +80,29 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    private fun signinAndSignup() {
-        auth?.createUserWithEmailAndPassword(
-            binding.emailEdittext.text.toString(),
-            binding.passwordEdittext.text.toString()
-        )?.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                // Creating a user account
-                moveMainPage(task.result?.user)
-            } else if (task.exception?.message.isNullOrEmpty()) {
-                // Show the error message
-                Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
-            } else {
-                // Login if you have account
-                signinEmail()
-            }
-        }
-    }
+//    private fun signinAndSignup() {
+//        auth?.createUserWithEmailAndPassword(
+//            binding.emailEdittext.text.toString(),
+//            binding.passwordEdittext.text.toString()
+//        )?.addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                Firebase.auth.currentUser
+//                    ?.sendEmailVerification()
+//                    ?.addOnCompleteListener { verifyTask ->
+//                        if (verifyTask.isSuccessful) {
+//                            // Creating a user account
+//                            moveMainPage(task.result?.user)
+//                        }
+//                    }
+//            } else if (task.exception?.message.isNullOrEmpty()) {
+//                // Show the error message
+//                Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
+//            } else {
+//                // Login if you have account
+//                signinEmail()
+//            }
+//        }
+//    }
 
     private fun signinEmail() {
         auth?.signInWithEmailAndPassword(

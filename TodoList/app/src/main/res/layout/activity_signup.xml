@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".SignupActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -49,45 +49,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/email_goto_signup_button"
+            android:id="@+id/signup_button"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="40dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="40dp"
             android:background="@color/colorWhite"
-            android:text="@string/goto_signup"
-            android:textStyle="bold"
-            android:textColor="#03A9F4"
-            android:theme="@style/ButtonStyle" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/email_login_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/colorEmailSignIn"
-            android:text="@string/signin_email"
-            android:textColor="@color/colorWhite"
+            android:text="@string/signup_email"
+            android:textColor="#03a9f4"
             android:textStyle="bold"
             android:theme="@style/ButtonStyle" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/google_signin_in_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="80dp"
-            android:background="@color/colorGoogleSignIn"
-            android:text="@string/signin_google"
-            android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            android:theme="@style/ButtonStyle"/>
     </LinearLayout>
 </RelativeLayout>

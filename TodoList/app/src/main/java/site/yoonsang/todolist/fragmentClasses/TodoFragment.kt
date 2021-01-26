@@ -46,7 +46,6 @@ class TodoFragment : Fragment() {
             if (mBinding?.editText?.text.toString() != "") {
                 val todo = Todo(mBinding?.editText?.text.toString())
                 viewModel.addTodo(todo)
-                val dateFormat = SimpleDateFormat("yyyy-M-dd", Locale.KOREA).format(todo.createdDate)
                 mBinding?.editText?.setText("")
             } else {
                 customToast("할 일을 입력해주세요")
@@ -66,7 +65,7 @@ class TodoFragment : Fragment() {
         super.onDestroyView()
     }
 
-    fun customToast(message: String) {
+    private fun customToast(message: String) {
         val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
         val view = toast.view
         val color = resources.getColor(R.color.design_default_color_primary)

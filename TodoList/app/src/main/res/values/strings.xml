@@ -6,8 +6,10 @@
     <string name="content_description2">체크박스</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="signin_email">Signup or Signin by email</string>
-    <string name="signin_google">Google login</string>
+    <string name="signin_email">로그인</string>
+    <string name="goto_signup">회원가입 하러가기</string>
+    <string name="signup_email">회원가입</string>
+    <string name="signin_google">구글 계정을 통해 로그인</string>
 
     <string name="nav_calendar">Calendar</string>
     <string name="nav_todo">Todo</string>

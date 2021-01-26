@@ -35,18 +35,20 @@ class ProfileFragment : Fragment() {
         mBinding?.profileName?.setText(Firebase.auth.currentUser?.email)
 
         mBinding?.logoutBtn?.setOnClickListener {
-            AlertDialog.Builder(requireContext())
-                .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
-                .setPositiveButton("로그아웃", DialogInterface.OnClickListener { dialog, which ->
-                    val intent = Intent(requireContext(), LoginActivity::class.java)
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                    Firebase.auth.signOut()
-                    startActivity(intent)
-                })
-                .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
+            if (Firebase.auth.currentUser != null) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
+                    .setPositiveButton("로그아웃", DialogInterface.OnClickListener { dialog, which ->
+                        val intent = Intent(requireContext(), LoginActivity::class.java)
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        Firebase.auth.signOut()
+                        startActivity(intent)
+                    })
+                    .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
 
-                })
-                .show()
+                    })
+                    .show()
+            }
         }
 
         return mBinding?.root
