@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.*
+import android.view.KeyEvent.KEYCODE_ENTER
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -42,14 +43,14 @@ class TodoFragment : Fragment() {
             },
         )
 
-        mBinding?.addButton?.setOnClickListener {
-            if (mBinding?.editText?.text.toString() != "") {
-                val todo = Todo(mBinding?.editText?.text.toString())
-                viewModel.addTodo(todo)
-                mBinding?.editText?.setText("")
-            } else {
-                customToast("할 일을 입력해주세요")
+        mBinding?.editText?.setOnKeyListener { v, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KEYCODE_ENTER) {
+                addTodo()
             }
+            true
+        }
+        mBinding?.addButton?.setOnClickListener {
+            addTodo()
         }
 
         // 관찰 UI 업데이트
@@ -63,6 +64,16 @@ class TodoFragment : Fragment() {
     override fun onDestroyView() {
         mBinding = null
         super.onDestroyView()
+    }
+
+    private fun addTodo() {
+        if (mBinding?.editText?.text.toString() != "") {
+            val todo = Todo(mBinding?.editText?.text.toString())
+            viewModel.addTodo(todo)
+            mBinding?.editText?.setText("")
+        } else {
+            customToast("할 일을 입력해주세요")
+        }
     }
 
     private fun customToast(message: String) {
