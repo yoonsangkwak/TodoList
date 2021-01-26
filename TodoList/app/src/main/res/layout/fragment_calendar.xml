@@ -6,11 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="10dp"
-    tools:context="site.yoonsang.todolist.fragmentClasses.CalendarFragment">
+    tools:context=".fragmentClasses.CalendarFragment">
 
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:id="@+id/calendarView"
         app:mcv_selectionColor="@color/colorEmailSignIn"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -11,9 +11,7 @@
         android:id="@+id/checkbox_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_margin="10dp"
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/content_description2"
         android:src="@drawable/ic_checkbox_outline" />
@@ -21,14 +19,12 @@
     <TextView
         android:id="@+id/todo_text"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="24dp"
         android:layout_weight="1"
-        android:layout_gravity="center_vertical"
         android:layout_margin="10dp"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:fontFamily="@font/font"
-        tools:text="숙제" />
+        tools:text="내일 수업자료 프린트하기" />
 
     <ImageView
         android:id="@+id/delete_image_view"
