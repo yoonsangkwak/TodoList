@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,25 +27,20 @@ class ProfileFragment : Fragment() {
         val binding = FragmentProfileBinding.inflate(inflater, container, false)
         mBinding = binding
 
-        mBinding?.profileImageSettingBtn?.setOnClickListener {
-            loadImage()
-        }
-
-        mBinding?.profileName?.setText(Firebase.auth.currentUser?.email)
+        mBinding?.profileName?.text = Firebase.auth.currentUser?.email
 
         mBinding?.logoutBtn?.setOnClickListener {
             if (Firebase.auth.currentUser != null) {
                 AlertDialog.Builder(requireContext())
                     .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
-                    .setPositiveButton("로그아웃", DialogInterface.OnClickListener { dialog, which ->
+                    .setPositiveButton("로그아웃") { _, _ ->
                         val intent = Intent(requireContext(), LoginActivity::class.java)
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                         Firebase.auth.signOut()
                         startActivity(intent)
-                    })
-                    .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
-
-                    })
+                    }
+                    .setNegativeButton("취소") { _, _ ->
+                    }
                     .show()
             }
         }
@@ -57,12 +51,6 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         mBinding = null
         super.onDestroyView()
-    }
-
-    private fun loadImage() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
-        startActivityForResult(intent, GALLERY)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

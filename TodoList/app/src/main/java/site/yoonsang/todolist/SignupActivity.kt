@@ -39,15 +39,10 @@ class SignupActivity : AppCompatActivity() {
                     ?.addOnCompleteListener { verifyTask ->
                         if (verifyTask.isSuccessful) {
                             // Creating a user account
+                            Toast.makeText(this, "회원가입이 되었습니다.", Toast.LENGTH_LONG).show()
                             moveMainPage(task.result?.user)
                         }
                     }
-            } else if (task.exception?.message.isNullOrBlank()) {
-                // Show the error message
-                Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
-            } else {
-                // Login if you have account
-//                signinEmail()
             }
         }
     }
